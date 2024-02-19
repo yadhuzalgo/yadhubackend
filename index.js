@@ -18,18 +18,15 @@ app.get('/',(request,response)=>{
     response.send("hoi")
 })
 
- app.post('/new',(request,response)=>{
-  console.log(request.body)
- new Moviemodel (request.body).save();
- response.send("Recored succesfully saved")
- })
-app.post('/new',upload.single('image'),async(request,response)=>{
-    try{
-        console.log("Reached!")
+ 
+app.post('/new',upload.single('image1'),async(request,response)=>{
+    // try{
+        console.log(request.body)
+        console.log(request.file)
         const{MovieId,MovieName,Discription,Language,Genre}=request.body
         const newdata=Moviemodel({
             MovieId,MovieName,Language,Discription,Genre,
-            image:{
+            image1:{
                 data:request.file.buffer,
                 contentType:request.file.mimetype,
             }
@@ -38,11 +35,11 @@ app.post('/new',upload.single('image'),async(request,response)=>{
         await newdata.save();
         
         response.status(200).json({message:'record saved'});
-    }
-    catch(error)
-    {
-        response.status(500).json({error:'internal server error'})
-    }
+    // }
+    // catch(error)
+    // {
+    //     response.status(500).json({error:'internal server error'})
+    // }
 })
 
  app.get('/view',async(request,response)=>{
